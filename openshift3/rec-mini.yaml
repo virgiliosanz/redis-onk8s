@@ -1,0 +1,17 @@
+apiVersion: "app.redislabs.com/v1"
+kind: "RedisEnterpriseCluster"
+metadata:
+  name: "rsmini"
+spec:
+  nodes: 1
+  persistentSpec:
+    enabled: true
+  uiServiceType: ClusterIP
+  username: "admin@redis.io"
+  redisEnterpriseNodeResources:
+    limits:
+      cpu: "4000m"
+      memory: 4Gi
+    requests:
+      cpu: "200m"
+      memory: 4Gi

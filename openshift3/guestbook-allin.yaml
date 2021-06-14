@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: guestbook-allin
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: guestbook-allin
+---
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseDatabase
+metadata:
+  name: smalldb-allin
+spec:
+  memorySize: 100MB
+  evictionPolicy: noeviction
+  defaultUser: true
+  shardCount: 1
+  replication: false
+  persistence: "disabled"
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: guestbook-allin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guestbook-allin
+      name: guestbook-allin
+  template:
+    metadata:
+      labels:
+        app: guestbook-allin
+        name: guestbook-allin
+    spec:
+      containers:
+        - name: guestbook-allin
+          image: avasseur/guestbook:latest
+          imagePullPolicy: Always
+          env:
+          - name: REDIS_PORT
+            valueFrom:
+              secretKeyRef:
+                name: redb-smalldb-allin
+                key: port
+          - name: REDIS_HOST
+            valueFrom:
+              secretKeyRef:
+                name: redb-smalldb-allin
+                key: service_name
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: redb-smalldb-allin
+                key: password
+          ports:
+            - name: guestbook-allin
+              containerPort: 80
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: guestbook-allin
+spec:
+  host: guestbook-allin.avasseur-okd.demo.redislabs.com
+  to:
+    kind: Service
+    name: guestbook-allin
+#  port:
+#    targetPort: guestbook-allin

@@ -1,0 +1,50 @@
+apiVersion: "app.redislabs.com/v1"
+kind: "RedisEnterpriseCluster"
+metadata:
+  name: "demo4"
+spec:
+  nodes: 1
+  persistentSpec:
+    enabled: true
+#    storageClassName: "redis-storage" # ! edit according to infrastructure
+  uiServiceType: ClusterIP
+  username: "admin@redis.io"
+  redisEnterpriseNodeResources:
+    limits:
+      cpu: "4000m"
+      memory: 4Gi
+    requests:
+      cpu: "200m"
+      memory: 4Gi
+#  redisEnterpriseImageSpec:
+#    imagePullPolicy:  IfNotPresent
+#    repository:       redislabs/redis
+#    versionTag:       5.4.10-22.rhel7-openshift
+#  redisEnterpriseServicesRiggerImageSpec:
+#    imagePullPolicy:  IfNotPresent
+#    repository:       redislabs/k8s-controller
+#    versionTag:       5.4.10-8.rhel7
+  podAntiAffinity: # disable anti affinity to allow loading multiple pods on the same node
+    RequiredDuringSchedulingIgnoredDuringExecution:
+      namespaces:
+      - default
+      - alex-redislabs
+      - alex-gcp
+  servicesRiggerSpec:
+    databaseServiceType: "cluster_ip,headless"
+    serviceNaming: "bdb_name"
+    #serviceNaming: "redis-port"
+  activeActive:
+    method: openShiftRoute
+    apiIngressUrl: demo4-api.avasseur-okd.demo.redislabs.com
+    dbIngressSuffix: -demo4.avasseur-okd.demo.redislabs.com
+  # license: |
+  #   License Owner: SA_POC_TRIAL
+  #   Cluster Name : <any>
+  #   Shards limit : 500
+  #   Valid        : 2021-05-15T00:00:00Z-2021-07-01T00:00:00Z
+  #   Features     : trial, bigstore
+
+  #   ----- LICENSE START -----
+  #   ....
+  #   ----- LICENSE END -----  

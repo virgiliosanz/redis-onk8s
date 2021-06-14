@@ -1,0 +1,13 @@
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseDatabase
+metadata:
+  name: smalldb
+spec:
+  #redisEnterpriseCluster:
+  #  name: demo3
+  memorySize: 100MB
+  evictionPolicy: noeviction # defaults to volatile-lru
+  defaultUser: true
+  shardCount: 2
+  replication: true
+  persistence: "aofAlways"

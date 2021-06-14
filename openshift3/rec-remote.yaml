@@ -1,0 +1,36 @@
+apiVersion: "app.redislabs.com/v1"
+kind: "RedisEnterpriseCluster"
+metadata:
+  name: "demoremote"
+spec:
+  nodes: 1
+  persistentSpec:
+    enabled: true
+#    storageClassName: "redis-storage" # ! edit according to infrastructure
+  uiServiceType: ClusterIP
+  username: "admin@redis.io"
+  redisEnterpriseNodeResources:
+    limits:
+      cpu: "4000m"
+      memory: 4Gi
+    requests:
+      cpu: "200m"
+      memory: 4Gi
+#  redisEnterpriseImageSpec:
+#    imagePullPolicy:  IfNotPresent
+#    repository:       redislabs/redis
+#    versionTag:       5.4.10-22.rhel7-openshift
+#  redisEnterpriseServicesRiggerImageSpec:
+#    imagePullPolicy:  IfNotPresent
+#    repository:       redislabs/k8s-controller
+#    versionTag:       5.4.10-8.rhel7
+  podAntiAffinity: # disable anti affinity to allow loading multiple pods on the same node
+    RequiredDuringSchedulingIgnoredDuringExecution:
+      namespaces:
+      - default
+      - alex-redislabs
+      - alex-remote
+  servicesRiggerSpec:
+    databaseServiceType: "cluster_ip,headless"
+    serviceNaming: "bdb_name"
+    #serviceNaming: "redis-port"

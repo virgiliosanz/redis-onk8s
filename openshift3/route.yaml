@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: demo3-api
+spec:
+  host: demo3-api.avasseur-okd.demo.redislabs.com
+  to:
+    kind: Service
+    name: demo3
+  port:
+    targetPort: api
+  tls:
+    termination: passthrough
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: demo3-ui
+spec:
+  host: demo3-ui.avasseur-okd.demo.redislabs.com
+  to:
+    kind: Service
+    name: demo3-ui
+  port:
+    targetPort: ui
+  tls:
+    termination: passthrough

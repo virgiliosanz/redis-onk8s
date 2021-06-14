@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: guestbook-rs
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: guestbook-rs
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: guestbook-rs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guestbook-rs
+      name: guestbook-rs
+  template:
+    metadata:
+      labels:
+        app: guestbook-rs
+        name: guestbook-rs
+    spec:
+      containers:
+        - name: guestbook-rs
+          image: avasseur/guestbook:latest
+          imagePullPolicy: Always
+          env:
+          - name: REDIS_PORT
+            valueFrom:
+              secretKeyRef:
+                name: redb-smalldb
+                key: port
+          - name: REDIS_HOST
+            valueFrom:
+              secretKeyRef:
+                name: redb-smalldb
+                key: service_name
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: redb-smalldb
+                key: password
+          ports:
+            - name: guestbook-rs
+              containerPort: 80
