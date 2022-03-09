@@ -229,7 +229,7 @@ redis-cli -h redis-17000.cluster.avasseur.demo.redislabs.com -p 17000
 
 ## TLS example with traffic thru the OpenShift route as passthrough with SNI
 
-Example of TSL connection (if DB has TLS turned on) and traffic thru OpenShift router
+Example of TLS connection (if DB has TLS turned on) and traffic thru OpenShift router
 ```
 redis-cli -h ssl-16212-demo4.avasseur-okd.demo.redislabs.com -p 443 --tls --insecure --sni ssl-16212-demo4.avasseur-okd.demo.redislabs.com
 ```
