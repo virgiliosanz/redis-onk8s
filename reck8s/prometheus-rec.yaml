@@ -4,7 +4,7 @@ metadata:
   name: redis-enterprise
 spec:
   endpoints:
-  - interval: 16s
+  - interval: 15s
     port: prometheus
     scheme: https
     tlsConfig:

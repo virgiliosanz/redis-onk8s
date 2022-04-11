@@ -1,5 +1,5 @@
 prometheus:
   prometheusSpec:
-    serviceMonitorNamespaceSelector:
-      matchLabels:
-        redis-prometheus: enable
+    serviceMonitorNamespaceSelector: {}
+#      matchLabels:
+#        redis-prometheus: enable
