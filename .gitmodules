@@ -1,0 +1,3 @@
+[submodule "redis-enterprise-k8s-docs"]
+	path = redis-enterprise-k8s-docs
+	url = https://github.com/RedisLabs/redis-enterprise-k8s-docs.git
