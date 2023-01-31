@@ -1,0 +1,22 @@
+# REC file with minimal requirements from kubernetes:
+# - No persistent volumes
+#
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rec
+type: opaque
+stringData:
+  username: admin@redis.io
+  password: adminRL123
+---
+apiVersion: "app.redislabs.com/v1"
+kind: "RedisEnterpriseCluster"
+metadata:
+  name: rec
+spec:
+  nodes: 3
+  persistentSpec:
+    enabled: false
+  uiServiceType: ClusterIP
+  username: "admin@redis.io"

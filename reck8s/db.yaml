@@ -4,10 +4,8 @@ metadata:
   name: db
 spec:
   redisEnterpriseCluster:
-    name: rec
   memorySize: 100MB
-  evictionPolicy: noeviction # defaults to volatile-lru
   defaultUser: true
   shardCount: 1
   replication: true
-  persistence: "aofAlways"
+  tlsMode: enabled

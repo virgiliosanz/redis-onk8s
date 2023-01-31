@@ -1,0 +1,16 @@
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseDatabase
+metadata:
+  name: redb
+spec:
+  redisEnterpriseCluster:
+    name: rec
+  memorySize: 1GB
+  evictionPolicy: "noeviction"
+  defaultUser: true
+  shardCount: 2
+  replication: true
+  persistence: "disabled"
+  ossCluster: false
+  databasePort: 12000
+  shardsPlacement: "sparse"
